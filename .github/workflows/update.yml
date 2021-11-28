@@ -12,9 +12,9 @@ jobs:
     - run: echo bollocks > test.txt
     - run: git status
     - run: git add .
+    - run: git config --global user.email "stats-bot@arbitrarydata.co.uk" && git config --global user.name "stats-bot"
     - run: git commit -m 'testing git push!'
-    - run: git config --global user.email "stats-bot@arbitrarydata.co.uk"
-    - run: git config --global user.name "stats-bot"
+    
     - run: git push -o ci.skip
 
 
