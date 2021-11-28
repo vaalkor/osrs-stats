@@ -1,12 +1,8 @@
 name: Daily Update
 
-# on:
-#   schedule:
-#     - cron:  '0 4 * * *'
-
 on:
-  push:
-    branches: [ master ]
+  schedule:
+    - cron:  '0 4 * * *'
 
 jobs:
   daily-update:
