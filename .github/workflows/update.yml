@@ -1,0 +1,12 @@
+name: Update
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: pwsh ./test-powershell.ps1
