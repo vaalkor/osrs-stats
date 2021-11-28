@@ -1,20 +1,20 @@
-name: Update
+name: Daily Update
+
+# on:
+#   schedule:
+#     - cron:  '0 4 * * *'
 
 on:
   push:
     branches: [ master ]
 
 jobs:
-  build:
+  daily-update:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: echo bollocks > test.txt
-    - run: git status
-    - run: git add .
+    - run: pwsh ./daily-score-pull.ps1
     - run: git config --global user.email "stats-bot@arbitrarydata.co.uk" && git config --global user.name "stats-bot"
-    - run: git commit -m 'testing git push!'
-    
+    - run: git add .
+    - run: git commit -m 'Automated daily stats update.'
     - run: git push -o ci.skip
-
-
