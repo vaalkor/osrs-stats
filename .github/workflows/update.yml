@@ -9,4 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: pwsh ./test-powershell.ps1
+    - run: echo bollocks > test.txt
+    - run: git status
+    - run: git add .
+    - run: git commit -m 'testing git push!'
+    - run: git push -o ci.skip
