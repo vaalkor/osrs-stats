@@ -14,4 +14,4 @@ jobs:
       S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
     steps:
     - uses: actions/checkout@v2
-    - run: /bin/bash send-email.sh
+    - run: /bin/bash .github/send-email.sh
