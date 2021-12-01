@@ -124,7 +124,7 @@ def daily_stats_email_segment():
         
 
 # Build email!
-email_string = '<h1> Daily OSRS stats update! </h1><hr/>&nbsp'
+email_string = '<h1> Daily OSRS stats update! </h1><p>I\'m testing the automated email sending. The first one was manual...</p><hr/>&nbsp;'
 if(len(daily_stat_gains.keys()) > 0):
     email_string += overall_daily_xp_gains()
     email_string += daily_stats_email_segment()

@@ -13,7 +13,7 @@ jobs:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       S3_BUCKET_URL: ${{ secrets.S3_BUCKET_URL }}
       S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-      MAILERSEND_API_KEY: ${{ secrets.S3_BUCKET_NAME }}
+      MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
       # Player email addresses.
       Vaalkor_EMAIL: ${{ secrets.VAALKOR_EMAIL }}
       IC_HEDGIE_EMAIL: ${{ secrets.IC_HEDGIE_EMAIL }}

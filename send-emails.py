@@ -17,7 +17,7 @@ def get_env_var(name):
 
 def create_recipient_object(player_name):
     return {
-        "name": "player_name",
+        "name": player_name,
         "email": get_env_var(f'{player_name}_EMAIL'.replace(' ','_'))
     }
 
