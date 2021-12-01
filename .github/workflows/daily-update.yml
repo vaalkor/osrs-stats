@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: pwsh ./daily-score-pull.ps1
+    - run: pwsh .github/daily-score-pull.ps1
     - run: git config --global user.email "stats-bot@arbitrarydata.co.uk" && git config --global user.name "stats-bot"
     - run: git add .
     - run: git commit -m 'Automated daily stats update.'

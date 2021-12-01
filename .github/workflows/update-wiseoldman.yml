@@ -1,0 +1,12 @@
+name: update-wiseoldman
+
+on:
+  schedule:
+    - cron:  '30 0,4,8,12,16,20 * * *'
+
+jobs:
+  update-wiseoldman:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: pwsh .github/send-email.ps1

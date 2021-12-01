@@ -22,4 +22,4 @@ jobs:
       Tremarctinae_EMAIL: ${{ secrets.TREMARCTINAE_EMAIL }}
     steps:
     - uses: actions/checkout@v2
-    - run: pwsh ./send-email.ps1
+    - run: pwsh .github/send-email.ps1
