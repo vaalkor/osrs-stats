@@ -8,14 +8,14 @@ if(-not $env:S3_BUCKET_NAME){ throw 'Could not find requried env var S3_BUCKET_N
 #     ./venv/Scripts/activate
 # }
 
-ls data -File -Filter *.json
-
+$env:OS
+exit 0
 python -m pip install matplotlib
 
 if($env:S3_BUCKET_URL){
-    python analysis.py --bucket-url $env:S3_BUCKET_URL --files (ls data -File -Filter *.json | %{$_.FullName})
+    python analysis.py --bucket-url $env:S3_BUCKET_URL --files (Get-ChildItem data -File -Filter *.json | ForEach-Object{$_.FullName})
 }else{
-    python analysis.py --files (ls data -File -Filter *.json | %{$_.FullName})
+    python analysis.py --files (Get-ChildItem data -File -Filter *.json | ForEach-Object{$_.FullName})
 }
 
 if(-not (Test-Path email_content.html)){
