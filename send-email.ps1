@@ -8,7 +8,9 @@ if($env:OS -eq 'Windows_NT' -and -not $env:VIRTUAL_ENV){
     ./venv/Scripts/activate
 }
 
-python -m pip install -r requirements.txt
+# python -m pip install -r requirements.txt
+python -m pip install matplotlib
+python -m pip install mailersend
 
 if($LocalTest){
     python analysis.py --files (Get-ChildItem data -File -Filter *.json | ForEach-Object{$_.FullName})
