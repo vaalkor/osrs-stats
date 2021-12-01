@@ -69,7 +69,6 @@ for file in args.files:
         print(f'Skipping file: {file} as there are not enough data points')
         continue
     
-    
     player_name = os.path.split(file)[1].replace('.json','')
     compute_daily_xp_gains(player_name, data)
 
@@ -98,10 +97,21 @@ def create_daily_stats_table(player_name):
     f'{table_rows(player_name)}'
 '</table>')
     return table_string
+
+   
+def overall_daily_xp_gains():
     
+    image_name = f'{timestamp}_overall_daily_xp.png'
+    images_to_upload.append(image_name)
+
+    players = sorted(daily_stat_gains.keys(), key=lambda x:-1*player_stats[x]['skills']['overall']['daily_xp_gain'])[::-1]
+    xp_vals = [player_stats[x]['skills']['overall']['daily_xp_gain'] for x in players]
+    plot_graph(players, xp_vals, f'Total XP gained previous day', image_name)   
+    
+    return f'<h2>Overall XP gains</h2><img src="{create_image_link(image_name)}"><img><hr/>'
 
 def daily_stats_email_segment():
-    resultString = '<h2>Daily XP Gains (sorted by highest overall gains)</h2>'
+    resultString = '<h2>Per Player daily XP Gains (sorted by highest overall gains)</h2>'
     for player_name in sorted(daily_stat_gains.keys(), key=lambda x:-1*player_stats[x]['skills']['overall']['daily_xp_gain']):
         image_name = f'{timestamp}_{player_name}_daily_xp.png'
         images_to_upload.append(image_name)
@@ -118,6 +128,7 @@ def daily_stats_email_segment():
 # Build email!
 email_string = '<h1> Daily OSRS stats update! </h1><hr/>&nbsp'
 if(len(daily_stat_gains.keys()) > 0):
+    email_string += overall_daily_xp_gains()
     email_string += daily_stats_email_segment()
 
 final_email = f'<html><head>{css}</head><body>{email_string}</body></html>'

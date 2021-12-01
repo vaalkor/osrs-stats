@@ -1,4 +1,3 @@
-
 if(-not $env:S3_BUCKET_URL){ throw 'Could not find requried env var S3_BUCKET_URL' }
 if(-not $env:S3_BUCKET_NAME){ throw 'Could not find requried env var S3_BUCKET_NAME' }
 
@@ -28,7 +27,6 @@ aws s3 cp email_content.html s3://$env:S3_BUCKET_NAME/email_content.html
     "Uploading $_ to s3!"
     aws s3 cp "`"$_`"" "`"s3://$env:S3_BUCKET_NAME/$_`""
 }
-
 
 # exit 0
 # $destination = @{
