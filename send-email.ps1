@@ -9,7 +9,6 @@ if($env:OS -eq 'Windows_NT' -and -not $env:VIRTUAL_ENV){
 }
 
 python -m pip install matplotlib
-exit 0
 
 if($env:S3_BUCKET_URL){
     python analysis.py --bucket-url $env:S3_BUCKET_URL --files (Get-ChildItem data -File -Filter *.json | ForEach-Object{$_.FullName})
@@ -26,6 +25,7 @@ if(-not (Test-Path images_to_upload.json)){
 
 aws s3 cp email_content.html s3://$env:S3_BUCKET_NAME/email_content.html
 (Get-Content images_to_upload.json | ConvertFrom-Json) | %{
+    "Uploading $_ to s3!"
     aws s3 cp "`"$_`"" "`"s3://$env:S3_BUCKET_NAME/$_`""
 }
 
