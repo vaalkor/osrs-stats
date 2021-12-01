@@ -1,5 +1,13 @@
+
 if(-not $env:S3_BUCKET_URL){ throw 'Could not find requried env var S3_BUCKET_URL' }
 if(-not $env:S3_BUCKET_NAME){ throw 'Could not find requried env var S3_BUCKET_NAME' }
+
+if(-not $env:VIRTUAL_ENV){
+    "Creating virtual env..."
+    python -m venv venv
+    ./venv/Scripts/activate
+}
+python -m pip install matplotlib
 
 if($env:S3_BUCKET_URL){
     python analysis.py --bucket-url $env:S3_BUCKET_URL --files (ls data -File -Filter *.json | %{$_.FullName})
