@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  send-email:
     runs-on: ubuntu-latest
     env:
       AWS_DEFAULT_REGION: eu-west-2
@@ -14,5 +14,4 @@ jobs:
       S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
     steps:
     - uses: actions/checkout@v2
-    - run: echo test > thing.txt
-    - run: aws s3 cp thing.txt s3://"$S3_BUCKET_NAME"/thing/txt
+    - run: /bin/bash send-email.sh
