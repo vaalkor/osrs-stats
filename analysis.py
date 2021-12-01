@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import datetime
 
 parser = argparse.ArgumentParser(description='This script analysis the runescape stats and formulates emails to send out.')
-parser.add_argument('--bucket-url', '-b', dest='bucket_url', required=False, help='S3 bucket url to store images in for graphs in emails. If this is not defined image links will just default to local links.')
+parser.add_argument('--bucket-url', '-b', dest='bucket_url', default=None, required=False, help='S3 bucket url to store images in for graphs in emails. If this is not defined image links will just default to local links.')
 parser.add_argument('--files', '-f', nargs='+', dest='files', required=True, help='1 or more files to parse')
 args = parser.parse_args()
 
@@ -21,8 +21,6 @@ css=('<style>table, th, td { border: 1px solid black;}'
 )
 
 def create_image_link(image_name):
-    print(image_name)
-    print(args.bucket_url)
     if(args.bucket_url):
         return f'{args.bucket_url}/{image_name}'
     return image_name
