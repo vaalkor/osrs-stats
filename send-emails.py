@@ -28,7 +28,7 @@ if(not get_env_var('MAILERSEND_API_KEY')):
 with open('players.json', 'r') as read_file:
     players = json.load(read_file)
 
-players_with_emails = [x for x in players if get_env_var(f'{player_name}_EMAIL'.replace(' ','_'))]
+players_with_emails = [x for x in players if get_env_var(f'{x}_EMAIL'.replace(' ','_'))]
 print(f'Found emails for players: {players_with_emails}')
 
 with open(args.html_file, 'r') as read_file:
