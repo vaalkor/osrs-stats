@@ -59,4 +59,4 @@ mailer.set_plaintext_content("Sorry, all the juicy info in this email is in the 
 
 # using print() will also return status code and data
 print('Sending email!') 
-mailer.send(mail_body)
+print(mailer.send(mail_body))
