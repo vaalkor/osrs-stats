@@ -7,6 +7,9 @@ if(-not $env:S3_BUCKET_NAME){ throw 'Could not find requried env var S3_BUCKET_N
 #     python -m venv venv
 #     ./venv/Scripts/activate
 # }
+
+ls data -File -Filter *.json
+
 python -m pip install matplotlib
 
 if($env:S3_BUCKET_URL){
