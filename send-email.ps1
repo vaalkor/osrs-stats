@@ -8,8 +8,9 @@ if(-not $env:S3_BUCKET_NAME){ throw 'Could not find requried env var S3_BUCKET_N
 #     ./venv/Scripts/activate
 # }
 
-$env:OS
+"THis is the OS man: $env:OS"
 exit 0
+
 python -m pip install matplotlib
 
 if($env:S3_BUCKET_URL){
