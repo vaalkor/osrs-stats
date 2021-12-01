@@ -1,8 +1,8 @@
 name: send-email
 
 on:
-  push:
-    branches: [ master ]
+  schedule:
+    - cron:  '30 10 * * *'
 
 jobs:
   send-email:
