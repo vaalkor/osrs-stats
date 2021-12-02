@@ -9,4 +9,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: pwsh .github/send-email.ps1
+    - run: pwsh .github/update-wiseoldman.ps1
