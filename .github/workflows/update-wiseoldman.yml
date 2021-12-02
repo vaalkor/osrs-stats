@@ -11,4 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: pwsh .github/update-wiseoldman.ps1
+    - run: pwsh job_scripts/update-wiseoldman.ps1

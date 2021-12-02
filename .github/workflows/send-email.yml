@@ -28,4 +28,4 @@ jobs:
       
     steps:
     - uses: actions/checkout@v2
-    - run: pwsh .github/send-email.ps1
+    - run: pwsh job_scripts/send-email.ps1
