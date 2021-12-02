@@ -1,9 +1,17 @@
-def elem(tag, value='', classes='', id='', href='', attribute_string=''):
+def concat_iterable(iterable):
+    return ''.join([str(x) for x in iterable])
+
+def concat_vals(*values):
+    return ''.join([str(x) for x in iterable])
+
+def elem(tag, *values, classes='', id='', href='', attribute_string='', src=''):
     classes = f' class="{classes}"' if classes else ''
     id = f' id="{id}"' if id else ''
     href = f' href="{href}"' if href else ''
+    src = f' src="{src}"' if src else ''
 
-    return f'<{tag}{classes}{href}{id} {attribute_string}>{value if value else ""}</{tag}>'
+    print(values)
+    return f'<{tag}{classes}{href}{id}{src} {attribute_string}>{concat_iterable(values)}</{tag}>'
 
 def elems(tag, *values): 
     if len(values) == 0:
@@ -11,9 +19,23 @@ def elems(tag, *values):
     for val in values:
         return ''.join((elem(tag, x) for x in values))
 
-# print(elem('a'))
-# print(elem('a', 'chicken!'))
-# print(elem('a', value='chicken!', href='https://google.com'))
-# print(elem('a', value='chicken!', classes='bollocks twat'))
+def test(things):
+    for thing in things:
+        yield thing
+    # for thing in things: 
 
-# print(elems('td', 'val1', 'val2'))
+for thing in 'bollocks':
+    print(f'blah: {thing}')
+        
+
+print(concat_iterable(test('bollocks')))
+
+# print(elem('a'))
+# print(elem('table', \
+#         elem('tr', elems('th', 'Skill', 'XP Gain', 'Level Gain')), \
+#         elem('tr', elems('td', 'Strength', '4235345', '83 => 85')),
+#         elem('tr', elems('td', 'Attack', '53', '80 => 83')),
+#         elem('tr', elems('td', 'Defense', '345', '90 => 95'))
+#         ))
+
+# print(join_any([1,2,3,4,5,6,7,8,9,10]))

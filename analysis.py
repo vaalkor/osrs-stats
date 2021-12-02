@@ -76,33 +76,20 @@ for file in args.files:
 
 
 def table_rows(player_name):
-    result = ''
-    for skill in daily_stat_gains[player_name]:
-        print(f'table row for skill: {skill}')
-        result+=\
-('<tr>'
-    f'<td>{skill}</td>'
-    f'<td>{player_stats[player_name]["skills"][skill]["daily_xp_gain"]}</td>'
-    f'<td>{player_stats[player_name]["skills"][skill]["previous_level"]} => {player_stats[player_name]["skills"][skill]["level"]}</td>'
-'</tr>')
-    return result
+    def daily_stat_row(skill):
+        xp_gain = player_stats[player_name]["skills"][skill]["daily_xp_gain"]
+        level_gain = f'{player_stats[player_name]["skills"][skill]["previous_level"]} => {player_stats[player_name]["skills"][skill]["level"]}'
+        return elem('tr', elems('td', skill, xp_gain, level_gain))
+    test = [daily_stat_row(x) for x in daily_stat_gains[player_name]]
+    print(test)
+    return ''.join(test)
 
 
 def create_daily_stats_table(player_name):
-    table_string =\
-('<table>'
-    '<tr>'
-        '<th>Skill</th>'
-        '<th>XP Gain</th>'
-        '<th>Level Gain</th>'
-    '</tr>'
-    f'{table_rows(player_name)}'
-'</table>')
-    return table_string
+    return elem('table', elem('tr', elems('th', 'Skill', 'XP Gain', 'Level Gain')), table_rows(player_name))
 
    
 def overall_daily_xp_gains():
-    
     image_name = f'{timestamp}_overall_daily_xp.png'
     images_to_upload.append(image_name)
 
@@ -110,46 +97,55 @@ def overall_daily_xp_gains():
     xp_vals = [player_stats[x]['skills']['overall']['daily_xp_gain'] for x in players]
     plot_graph(players, xp_vals, f'Total XP gained previous day', image_name)   
     
-    return f'<h2>Overall XP gains</h2><img src="{create_image_link(image_name)}"><img><hr/>'
+    yield elem('h2', 'Overall XP gains')
+    yield elem('img', src=create_image_link(image_name))
+    yield elem('hr')
 
 def daily_stats_email_segment():
-    resultString = '<h2>Per Player daily XP Gains (sorted by highest overall gains)</h2>'
-    for player_name in sorted(daily_stat_gains.keys(), key=lambda x:-1*player_stats[x]['skills']['overall']['daily_xp_gain']):
+    players_sorted_by_xp_gain = sorted(daily_stat_gains.keys(), key=lambda x:-1*player_stats[x]['skills']['overall']['daily_xp_gain'])
+
+    yield elem('h2', 'Per Player daily XP Gains (sorted by highest overall gains)')
+
+    def get_segment_for_player(player_name):
         image_name = f'{timestamp}_{player_name}_daily_xp.png'
         images_to_upload.append(image_name)
 
         daily_xp_values = [player_stats[player_name]['skills'][x]['daily_xp_gain'] for x in daily_stat_gains[player_name][::-1]]
         plot_graph(daily_stat_gains[player_name][::-1], daily_xp_values, f'{player_name} XP gained previous day', image_name)
         
-        table_string = create_daily_stats_table(player_name)
-        resultString += f'<h3>{player_name} daily XP gains</h3><img src="{create_image_link(image_name)}"><img>{table_string}'
+        yield elem('h3', f'{player_name} daily XP gains')
+        yield elem('img', src=create_image_link(image_name))
+        yield create_daily_stats_table(player_name)
+                
 
-    return resultString
-        
+    for player_name in players_sorted_by_xp_gain:
+        yield from get_segment_for_player(player_name)
+       
 
 # Build email!
 
 with open('email_header.html', 'r') as read_file:
     email_header = read_file.read()
 
-email_string = (
-'<h1> Daily OSRS stats update!</h1>'
-'<p>I\'m testing the automated email sending. The first one was manual...</p>'
-'<hr/>'
-'&nbsp;'
-)
+def email_body():
+    yield elem('h1', 'Daily OSRS stats update!')
+    yield '<hr/>&nbsp;'
+    if(len(daily_stat_gains.keys()) > 0):
+        yield from overall_daily_xp_gains()
+        yield from daily_stats_email_segment()
 
-if(len(daily_stat_gains.keys()) > 0):
-    email_string += overall_daily_xp_gains()
-    email_string += daily_stats_email_segment()
 
-final_email = (
-'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
-'<html xmlns="http://www.w3.org/1999/xhtml">'
-f'{email_header}'
-f'<body>{email_string}</body>'
-'</html>'
-)
+def email():
+    yield '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
+    yield '<html xmlns="http://www.w3.org/1999/xhtml">'
+    yield f'{email_header}'
+
+    yield '<body>'
+    yield from email_body()
+    yield '</body>'
+    yield '</html>'
+
+final_email = concat_iterable(email())
 
 with open('temp/email_content.html', 'w') as f:
     f.write(final_email)
