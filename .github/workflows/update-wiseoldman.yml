@@ -3,9 +3,8 @@ name: update-wiseoldman
 on:
   schedule:
     - cron:  '30 0,4,8,12,16,20 * * *'
-
-on: 
   workflow_dispatch:
+  
 
 jobs:
   update-wiseoldman:

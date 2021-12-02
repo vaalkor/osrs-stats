@@ -3,9 +3,8 @@ name: Daily Update
 on:
   schedule:
     - cron:  '49 4 * * *'
-
-on: 
   workflow_dispatch:
+
 
 jobs:
   daily-update:
