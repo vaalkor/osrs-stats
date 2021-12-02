@@ -37,9 +37,6 @@ if(len(players_with_emails) == 0):
 with open(args.html_file, 'r') as read_file:
     html = read_file.read()
 
-
-
-
 recipients = [create_recipient_object(x) for x in players_with_emails]
 for recipient in recipients:
     print(f'Sending email to {recipient["name"]}')

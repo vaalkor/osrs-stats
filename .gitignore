@@ -1,3 +1,6 @@
+# Ignore temp folder that store images/html/json output of scripts
+/temp
+
 #->Terraform IGNORES
 # Local .terraform directories
 **/.terraform/*

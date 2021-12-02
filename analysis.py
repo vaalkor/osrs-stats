@@ -4,21 +4,19 @@ import os.path as path
 import os
 import matplotlib.pyplot as plt
 import datetime
+from utils import *
 
 parser = argparse.ArgumentParser(description='This script analysis the runescape stats and formulates emails to send out.')
-parser.add_argument('--bucket-url', '-b', dest='bucket_url', default=None, required=False, help='S3 bucket url to store images in for graphs in emails. If this is not defined image links will just default to local links.')
-parser.add_argument('--files', '-f', nargs='+', dest='files', required=True, help='1 or more files to parse')
+parser.add_argument('--bucket-url', dest='bucket_url', default=None, required=False, help='S3 bucket url to store images in for graphs in emails. If this is not defined image links will just default to local links.')
+parser.add_argument('--files', nargs='+', dest='files', required=True, help='1 or more files to parse')
 args = parser.parse_args()
 
+average_daily_xp_all_time = {}
+average_daily_xp_all_time
 player_stats = {}
 daily_stat_gains = {}
 images_to_upload = []
 timestamp = int(datetime.datetime.utcnow().timestamp())
-
-css=('<style>table, th, td { border: 1px solid black;}'
-'table { margin-left:30px}'
-'</style>'
-)
 
 def create_image_link(image_name):
     if(args.bucket_url):
@@ -50,14 +48,20 @@ def compute_daily_xp_gains(player_name, player_data):
 
 
 def plot_graph(x_vals, y_vals, title, filename):
+    
     fig = plt.figure()
     ax=fig.add_subplot(111)
     ax.set_title(title)
     ax.bar(x_vals, y_vals)
     plt.xticks(range(len(x_vals)), x_vals, rotation='vertical')
     plt.tight_layout()
-    plt.savefig(filename)
+    plt.savefig(f'temp/{filename}')
 
+#=======================================================#
+#=======================================================#
+
+try: os.mkdir('temp')
+except: True
 
 for file in args.files:
     with open(file, 'r') as read_file:
@@ -124,15 +128,31 @@ def daily_stats_email_segment():
         
 
 # Build email!
-email_string = '<h1> Daily OSRS stats update! </h1><p>I\'m testing the automated email sending. The first one was manual...</p><hr/>&nbsp;'
+
+with open('email_header.html', 'r') as read_file:
+    email_header = read_file.read()
+
+email_string = (
+'<h1> Daily OSRS stats update!</h1>'
+'<p>I\'m testing the automated email sending. The first one was manual...</p>'
+'<hr/>'
+'&nbsp;'
+)
+
 if(len(daily_stat_gains.keys()) > 0):
     email_string += overall_daily_xp_gains()
     email_string += daily_stats_email_segment()
 
-final_email = f'<html><head>{css}</head><body>{email_string}</body></html>'
+final_email = (
+'<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">'
+'<html xmlns="http://www.w3.org/1999/xhtml">'
+f'{email_header}'
+f'<body>{email_string}</body>'
+'</html>'
+)
 
-with open('email_content.html', 'w') as f:
+with open('temp/email_content.html', 'w') as f:
     f.write(final_email)
 
-with open('images_to_upload.json', 'w') as f:
+with open('temp/images_to_upload.json', 'w') as f:
     json.dump(images_to_upload, f)
