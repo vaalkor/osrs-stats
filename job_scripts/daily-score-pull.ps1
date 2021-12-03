@@ -4,11 +4,13 @@ if(-not (Test-Path "players.json")){
 
 . "./highscores-functions.ps1"
 
+$timestamp = GetUnixTime
+
 $players = Get-Content "players.json" | ConvertFrom-Json
 
 $players | %{
     "Pulling scores for player: $_"
-    $scores = GetPlayerStats $_
+    $scores = GetPlayerStats $_ $timestamp
     
     if(Test-Path -Path "data/$_.json" -PathType Leaf)
     {

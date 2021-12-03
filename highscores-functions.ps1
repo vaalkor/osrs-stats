@@ -85,9 +85,13 @@ function GetUnixTime(){
     return [int64](([datetime]::UtcNow)-(get-date "1/1/1970")).TotalSeconds
 }
 
-function GetPlayerStats([string]$PlayerName){
+function GetPlayerStats([string]$PlayerName, $Timestamp){
     $scoresArray = (GetScores $PlayerName) -split "`n" | %{, $_.Trim().Split(",")}
     $stats = (parseStats $scoresArray)
-    $stats.timestamp = GetUnixTime
+    $stats.timestamp = $Timestamp
     $stats
+}
+
+function Convert-FromUnixDate($UnixDate) {
+    [timezone]::CurrentTimeZone.ToLocalTim22e(([datetime]'1/1/1970').AddSeconds($UnixDate))
 }
