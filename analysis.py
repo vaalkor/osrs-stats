@@ -7,7 +7,7 @@ from datetime import datetime
 from utils import *
 
 parser = argparse.ArgumentParser(description='This script analysis the runescape stats and formulates emails to send out.')
-parser.add_argument('--bu   cket-url', dest='bucket_url', default=None, required=False, help='S3 bucket url to store images in for graphs in emails. If this is not defined image links will just default to local links.')
+parser.add_argument('--bucket-url', dest='bucket_url', default=None, required=False, help='S3 bucket url to store images in for graphs in emails. If this is not defined image links will just default to local links.')
 parser.add_argument('--files', nargs='+', dest='files', required=True, help='1 or more files to parse')
 args = parser.parse_args()
 
