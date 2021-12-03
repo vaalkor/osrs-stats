@@ -2,7 +2,8 @@ def concat_iterable(iterable):
     return ''.join([str(x) for x in iterable])
 
 def concat_vals(*values):
-    return ''.join([str(x) for x in iterable])
+    print(len(values))
+    return ''.join([str(x) for x in values])
 
 def elem(tag, *values, classes='', id='', href='', attribute_string='', src=''):
     classes = f' class="{classes}"' if classes else ''
@@ -13,22 +14,11 @@ def elem(tag, *values, classes='', id='', href='', attribute_string='', src=''):
     print(values)
     return f'<{tag}{classes}{href}{id}{src} {attribute_string}>{concat_iterable(values)}</{tag}>'
 
-def elems(tag, *values): 
+def elems(tag, *values):
     if len(values) == 0:
         raise 'No values provided!'
     for val in values:
         return ''.join((elem(tag, x) for x in values))
-
-def test(things):
-    for thing in things:
-        yield thing
-    # for thing in things: 
-
-for thing in 'bollocks':
-    print(f'blah: {thing}')
-        
-
-print(concat_iterable(test('bollocks')))
 
 # print(elem('a'))
 # print(elem('table', \
