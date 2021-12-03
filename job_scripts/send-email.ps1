@@ -29,11 +29,11 @@ if(-not (Test-Path 'temp/images_to_upload.json')){
 if(-not $LocalTest){
     if(-not $env:S3_BUCKET_NAME){ throw 'Could not find requried env var S3_BUCKET_NAME' }
 
-    aws s3 cp email_content.html s3://$env:S3_BUCKET_NAME/email_content.html
+    aws s3 cp temp/email_content.html s3://$env:S3_BUCKET_NAME/email_content.html
 
     (Get-Content 'temp/images_to_upload.json' | ConvertFrom-Json) | %{ 
         "Uploading $_ to s3!"  
-        aws s3 cp "`"$_`"" "`"s3://$env:S3_BUCKET_NAME/$_`""
+        aws s3 cp "`"temp/$_`"" "`"s3://$env:S3_BUCKET_NAME/$_`""
     }
 
     python send-emails.py --html-file 'temp/email_content.html'
