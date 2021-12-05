@@ -18,7 +18,7 @@ jobs:
       MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
       # Player email addresses.
       Vaalkor_EMAIL: ${{ secrets.VAALKOR_EMAIL }}
-      IC_HEDGIE_EMAIL: ${{ secrets.IC_HEDGIE_EMAIL }}
+      IC_Hedgie_EMAIL: ${{ secrets.IC_HEDGIE_EMAIL }}
       Mordis_EMAIL: ${{ secrets.MORDIS_EMAIL }}
       Sibuan_EMAIL: ${{ secrets.SIBUAN_EMAIL }}
       Tremarctinae_EMAIL: ${{ secrets.TREMARCTINAE_EMAIL }}
