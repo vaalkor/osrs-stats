@@ -4,11 +4,11 @@ $STATS = @{
     skills= @('overall','attack','defence','strength','hitpoints','ranged','prayer','magic','cooking','woodcutting','fletching','fishing','firemaking','crafting','smithing','mining','herblore','agility','thieving','slayer','farming','runecraft','hunter','construction');
     bh= @('hunter', 'rogue');
     clues= @('all', 'beginner', 'easy', 'medium', 'hard', 'elite', 'master');
-    bosses= @('Abyssal Sire','Alchemical Hydra','Barrows Chests','Bryophyta','Callisto','Cerberus','Chambers of Xeric','Chambers of Xeric: Challenge Mode','Chaos Elemental','Chaos Fanatic','Commander Zilyana','Corporeal Beast','Crazy Archaeologist','Dagannoth Prime','Dagannoth Rex','Dagannoth Supreme','Deranged Archaeologist','General Graardor','Giant Mole','Grotesque Guardians','Hespori','Kalphite Queen','King Black Dragon','Kraken',"Kree'Arra","K'ril Tsutsaroth",'Mimic','Nightmare',"Phosani's Nightmare",'Obor','Sarachnis','Scorpia','Skotizo','Tempoross','The Gauntlet','The Corrupted Gauntlet','Theatre of Blood','Theatre of Blood: Hard Mode','Thermonuclear Smoke Devil','TzKal-Zuk','TzTok-Jad','Venenatis',"Vet'ion",'Vorkath','Wintertodt','Zalcano','Zulrah')
+    bosses= @('Abyssal Sire','Alchemical Hydra','Barrows Chests','Bryophyta','Callisto','Cerberus','Chambers of Xeric','Chambers of Xeric: Challenge Mode','Chaos Elemental','Chaos Fanatic','Commander Zilyana','Corporeal Beast','Crazy Archaeologist','Dagannoth Prime','Dagannoth Rex','Dagannoth Supreme','Deranged Archaeologist','General Graardor','Giant Mole','Grotesque Guardians','Hespori','Kalphite Queen','King Black Dragon','Kraken',"Kree'Arra","K'ril Tsutsaroth",'Mimic', 'Nex','Nightmare',"Phosani's Nightmare",'Obor','Sarachnis','Scorpia','Skotizo','Tempoross','The Gauntlet','The Corrupted Gauntlet','Theatre of Blood','Theatre of Blood: Hard Mode','Thermonuclear Smoke Devil','TzKal-Zuk','TzTok-Jad','Venenatis',"Vet'ion",'Vorkath','Wintertodt','Zalcano','Zulrah')
 }
 
 function GetScores([string]$PlayerName){
-    return (Invoke-WebRequest "http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=$PlayerName").Content
+    return (Invoke-WebRequest "http://services.runescape.com/m=hiscore_oldschool/index_lite.ws?player=$PlayerName" -UseBasicParsing).Content
 }
 
 function parseSkills($statsArray) {
@@ -56,7 +56,7 @@ function parseSoulWarsZeal($statsArray){
 }
 
 function parseBosses($statsArray){
-    $playerStats = $statsArray[36..82]
+    $playerStats = $statsArray[36..83]
     $bosses = @{}
 
     for ($i=0; $i -lt $STATS.bosses.count; $i++){
@@ -67,8 +67,9 @@ function parseBosses($statsArray){
 }
  
 function parseStats($statsArray){
-    if(-not $statsArray -or -not ($statsArray -is [array]) -or $statsArray.Count -ne 84){
-        throw "Stats array is invalid! Something's gone very wrong here."
+    if(-not $statsArray -or -not ($statsArray -is [array]) -or $statsArray.Count -ne 85){
+        Write-Debug "statsArray length: $($statsArray.Count)"
+        throw "Stats array is invalid! Has a new game feature been released that would cause the highscores API to change?"
     }
 
     return @{
