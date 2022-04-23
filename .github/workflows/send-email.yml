@@ -1,31 +1,31 @@
-name: send-email
+# name: send-email
 
-on:
-  schedule:
-    - cron:  '30 10 * * *'
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron:  '30 10 * * *'
+#   workflow_dispatch:
 
 
-jobs:
-  send-email:
-    runs-on: ubuntu-latest
-    env:
-      AWS_DEFAULT_REGION: eu-west-2
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      S3_BUCKET_URL: ${{ secrets.S3_BUCKET_URL }}
-      S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
-      MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
-      # Player email addresses.
-      Vaalkor_EMAIL: ${{ secrets.VAALKOR_EMAIL }}
-      IC_Hedgie_EMAIL: ${{ secrets.IC_HEDGIE_EMAIL }}
-      Mordis_EMAIL: ${{ secrets.MORDIS_EMAIL }}
-      Sibuan_EMAIL: ${{ secrets.SIBUAN_EMAIL }}
-      Tremarctinae_EMAIL: ${{ secrets.TREMARCTINAE_EMAIL }}
-      ImInaDiaper_EMAIL: ${{ secrets.IMINADIAPER_EMAIL }}
-      waino66_EMAIL: ${{ secrets.WAINO66_EMAIL }}
+# jobs:
+#   send-email:
+#     runs-on: ubuntu-latest
+#     env:
+#       AWS_DEFAULT_REGION: eu-west-2
+#       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#       S3_BUCKET_URL: ${{ secrets.S3_BUCKET_URL }}
+#       S3_BUCKET_NAME: ${{ secrets.S3_BUCKET_NAME }}
+#       MAILERSEND_API_KEY: ${{ secrets.MAILERSEND_API_KEY }}
+#       # Player email addresses.
+#       Vaalkor_EMAIL: ${{ secrets.VAALKOR_EMAIL }}
+#       IC_Hedgie_EMAIL: ${{ secrets.IC_HEDGIE_EMAIL }}
+#       Mordis_EMAIL: ${{ secrets.MORDIS_EMAIL }}
+#       Sibuan_EMAIL: ${{ secrets.SIBUAN_EMAIL }}
+#       Tremarctinae_EMAIL: ${{ secrets.TREMARCTINAE_EMAIL }}
+#       ImInaDiaper_EMAIL: ${{ secrets.IMINADIAPER_EMAIL }}
+#       waino66_EMAIL: ${{ secrets.WAINO66_EMAIL }}
 
       
-    steps:
-    - uses: actions/checkout@v2
-    - run: pwsh job_scripts/send-email.ps1
+#     steps:
+#     - uses: actions/checkout@v2
+#     - run: pwsh job_scripts/send-email.ps1
